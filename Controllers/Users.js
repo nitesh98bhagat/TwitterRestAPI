@@ -1,8 +1,7 @@
 //import models
 const User = require("../Models/UserModel");
 
-
-//ADDING A USER TO THE DATABASE 
+//ADDING A USER TO THE DATABASE
 exports.addUser = (req, res) => {
   //Getting a formated joining date
   var options = { year: "numeric", month: "long", day: "numeric" };
@@ -38,8 +37,12 @@ exports.getAllUsers = (req, res) => {
 
 //GET A SPECIFIC USER FROM THE DATABASE
 exports.getSpecificUser = (req, res) => {
-  User.find({ name: req.params.userid }, (err, user) => {
-    res.send(user);
+  User.find({ username: req.params.userid }, (err, user) => {
+    if (user.length == 0) {
+      res.json({ message: "User doesn't exists" });
+    } else {
+      res.send(user);
+    }
   });
 };
 
@@ -52,8 +55,8 @@ exports.deleteAllUser = (req, res) => {
 
 //DELETING A SPECIFIC USER FROM THE DATABASE
 exports.deleteSpecificUser = (req, res) => {
-  const param = req.params.name;
-  User.deleteOne({ name: param }, (err) =>
+  const param = req.params.username;
+  User.deleteOne({ username: param }, (err) =>
     !err ? res.send(param + " is deleted successfuly") : res.send(err)
   );
 };

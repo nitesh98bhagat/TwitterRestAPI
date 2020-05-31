@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-
 //User controller
 const {
   addUser,
@@ -18,7 +17,7 @@ router.post("/", addUser);
 router.get("/:userid", getSpecificUser);
 
 //DELETING A SPECIFIC USER FROM DB
-router.delete("/:name");
+router.delete("/:username", deleteSpecificUser);
 
 //DELETING ALL USERS FROM DB
 router.delete("/", deleteAllUser);
