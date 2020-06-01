@@ -8,18 +8,16 @@ const {
   getSpecificUser,
   deleteAllUser,
   deleteSpecificUser,
+  updateUser,
 } = require("../Controllers/Users");
 
 //USERS ENDPOINT
-router.get("/", getAllUsers);
-router.post("/", addUser);
+router.get("/", getAllUsers).delete(deleteAllUser);
+
 //GET A SPECIFIC USERSDATA
-router.get("/:userid", getSpecificUser);
-
-//DELETING A SPECIFIC USER FROM DB
-router.delete("/:username", deleteSpecificUser);
-
-//DELETING ALL USERS FROM DB
-router.delete("/", deleteAllUser);
+router
+  .get("/:userid", getSpecificUser)
+  .delete("/:username", deleteSpecificUser)
+  .patch("/:username", updateUser);
 
 module.exports = router;

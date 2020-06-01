@@ -1,33 +1,6 @@
 //import models
 const User = require("../Models/UserModel");
 
-//ADDING A USER TO THE DATABASE
-exports.addUser = (req, res) => {
-  //Getting a formated joining date
-  var options = { year: "numeric", month: "long", day: "numeric" };
-  var today = new Date();
-
-  const newUser = new User({
-    name: req.body.name,
-    username: req.body.username,
-    email: req.body.email,
-    password: req.body.password,
-    bio: req.body.bio,
-    salt: req.body.salt,
-    joiningDate: today.toLocaleDateString("en-US", options),
-  });
-  newUser
-    .save()
-    .then((data) => res.send(data.name + " is added to the database"))
-    .catch((err) => {
-      if (err.keyPattern.username == 1 || err.keyPattern.email == 1) {
-        res.send(
-          `Sorry, ${err.keyValue.username || err.keyValue.email} already exists`
-        );
-      }
-    });
-};
-
 //GETTING ALL THE USERS FROM THE DATABASE
 exports.getAllUsers = (req, res) => {
   User.find({}, (err, user) => {
@@ -58,5 +31,26 @@ exports.deleteSpecificUser = (req, res) => {
   const param = req.params.username;
   User.deleteOne({ username: param }, (err) =>
     !err ? res.send(param + " is deleted successfuly") : res.send(err)
+  );
+};
+
+//Updating a user
+exports.updateUser = (req, res) => {
+  User.updateOne(
+    { username: req.params.username },
+    { $set: req.body },
+    (err) => {
+      if (!err) {
+        res.send("Updated successfully");
+      } else {
+        if (err.keyPattern.username == 1 || err.keyPattern.email == 1) {
+          res.send(
+            `Sorry, ${
+              err.keyValue.username || err.keyValue.email
+            } is taken already`
+          );
+        }
+      }
+    }
   );
 };
