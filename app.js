@@ -5,6 +5,9 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 
+//User Model
+const User = require("./Models/UserModel");
+
 //Custom Routes
 const usersRoute = require("./Routes/usersRoute");
 const authRoute = require("./Routes/authRoute");
@@ -22,9 +25,15 @@ mongoose.connect("mongodb://localhost:27017/wikkiDB", {
 });
 
 //home route
+const { tweetNow } = require("./Controllers/Tweet");
+
 app.get("/", (req, res) => {
-  res.send("home page");
+  User.find({}, (err, users) => {
+    res.send(users);
+  });
 });
+
+app.post("/", tweetNow);
 
 //SERVER startup code
 

@@ -16,7 +16,7 @@ router.get("/", getAllUsers).delete(deleteAllUser);
 
 //GET A SPECIFIC USERSDATA
 router
-  .get("/:userid", getSpecificUser)
+  .get("/:username", getSpecificUser)
   .delete("/:username", deleteSpecificUser)
   .patch("/:username", updateUser);
 

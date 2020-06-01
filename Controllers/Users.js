@@ -10,7 +10,7 @@ exports.getAllUsers = (req, res) => {
 
 //GET A SPECIFIC USER FROM THE DATABASE
 exports.getSpecificUser = (req, res) => {
-  User.find({ username: req.params.userid }, (err, user) => {
+  User.find({ username: req.params.username }, (err, user) => {
     if (user.length == 0) {
       res.json({ message: "User doesn't exists" });
     } else {
