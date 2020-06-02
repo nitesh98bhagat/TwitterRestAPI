@@ -16,19 +16,7 @@ exports.login = (req, res) => {
 
 //SIGN UP LOGIC
 exports.signup = (req, res) => {
-  //Getting a formated joining date
-  var options = { year: "numeric", month: "long", day: "numeric" };
-  var today = new Date();
-
-  const newUser = new User({
-    name: req.body.name,
-    username: req.body.username,
-    email: req.body.email,
-    password: req.body.password,
-    bio: req.body.bio,
-    salt: req.body.salt,
-    joiningDate: today.toLocaleDateString("en-US", options),
-  });
+  const newUser = new User(req.body);
   newUser
     .save()
     .then((user) =>

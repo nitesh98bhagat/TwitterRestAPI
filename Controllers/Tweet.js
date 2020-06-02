@@ -1,30 +1,27 @@
-const User = require("../Models/UserModel");
+const Tweet = require("../Models/TweetModel");
 
-const options = { year: "numeric", month: "long", day: "numeric" };
-const today = new Date();
-const date = today.toLocaleDateString("en-US", options);
-const time = today.toLocaleTimeString();
-
+//ADD A NEW TWEET
 exports.tweetNow = (req, res) => {
-  User.updateOne(
-    { username: req.body.username },
-    {
-      $push: {
-        tweets: {
-          username: req.body.username,
-          tweet: req.body.tweet,
-          like: 0,
-          date: `${date} , ${time}`,
-          reply: [],
-        },
-      },
-    },
-    (err) => {
-      if (!err) {
-        res.send("Tweet Sent");
-      } else {
-        res.send(err);
-      }
-    }
+  const tweet = new Tweet(req.body);
+  tweet
+    .save()
+    .then((tweet) => res.send(`${tweet.username}'s you're Tweet was sent`))
+    .catch((err) => res.send(err));
+};
+
+//GET ALL THE TWEETS
+exports.getAllTweets = (req, res) => {
+  Tweet.find({}, (err, tweet) => (!err ? res.send(tweet) : res.send(err)));
+};
+
+//GET A SPECIFIC TWEET
+exports.getSpecificTweet = (req, res)=>{
+  Tweet.findOne({_id:req.params.id}, (err, tweet) => (!err ? res.send(tweet) : res.send(err)));
+}
+
+//UPDATE A SPECIFIC TWEET
+exports.updateTweet = (req, res) => {
+  Tweet.updateOne({ _id: req.params.id }, { $set: req.body }, (err) =>
+    !err ? res.send("Tweet Updated") : res.send(err)
   );
 };

@@ -1,5 +1,10 @@
 const mongoose = require("mongoose");
 
+//Getting a formated joining date
+var options = { year: "numeric", month: "long", day: "numeric" };
+var today = new Date();
+const date = today.toLocaleDateString("en-US", options);
+
 const userSchema = mongoose.Schema({
   username: {
     type: String,
@@ -31,7 +36,10 @@ const userSchema = mongoose.Schema({
     maxlenght: 180,
     trim: true,
   },
-  joiningDate: String,
+  joiningDate: {
+    type:String,
+    default:date
+  },
   salt: String,
   followers: {
     type: Array,

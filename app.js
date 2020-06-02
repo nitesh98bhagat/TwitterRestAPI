@@ -3,19 +3,20 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 require("dotenv").config();
-
-//User Model
-const User = require("./Models/UserModel");
 
 //Custom Routes
 const usersRoute = require("./Routes/usersRoute");
 const authRoute = require("./Routes/authRoute");
+const tweetRoute = require("./Routes/tweetRoute");
 
 //middleware
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/users", usersRoute);
 app.use("/auth", authRoute);
+app.use("/tweets", tweetRoute);
 
 //DATABASE
 mongoose.connect("mongodb://localhost:27017/wikkiDB", {
@@ -25,15 +26,8 @@ mongoose.connect("mongodb://localhost:27017/wikkiDB", {
 });
 
 //home route
-const { tweetNow } = require("./Controllers/Tweet");
 
-app.get("/", (req, res) => {
-  User.find({}, (err, users) => {
-    res.send(users);
-  });
-});
-
-app.post("/", tweetNow);
+app.get("/", (req, res) => res.send("<h1>Welcome to Twitter API</h1>"));
 
 //SERVER startup code
 
