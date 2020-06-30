@@ -13,7 +13,7 @@
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "express-jwt": "^5.3.1",
+    "express-jwt": "^6.0.0",
     "express-validator": "^6.2.0",
     "formidable": "^1.2.1",
     "i": "^0.3.6",
